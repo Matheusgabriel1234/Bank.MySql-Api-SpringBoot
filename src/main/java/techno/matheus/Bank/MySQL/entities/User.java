@@ -3,14 +3,19 @@ package techno.matheus.Bank.MySQL.entities;
 import java.math.BigDecimal;
 import java.util.List;
 
+
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.NotBlank;
 import techno.matheus.Bank.MySQL.enums.UserType;
 
 
@@ -21,10 +26,16 @@ public class User {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
+@NotBlank
 private String firstName;
+@NotBlank
 private String lastName;
+
+@Enumerated(EnumType.STRING)
 private UserType userType;
 private BigDecimal amount;
+
+@Column(unique = true)
 private String document;
 
 

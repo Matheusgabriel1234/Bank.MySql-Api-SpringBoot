@@ -3,9 +3,13 @@ package techno.matheus.Bank.MySQL.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import techno.matheus.Bank.MySQL.entities.User;
 import techno.matheus.Bank.MySQL.repositories.UserRepository;
 
+
+@Service
 public class UserServices {
 
 	private UserRepository repository;
