@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import techno.matheus.Bank.MySQL.dto.UserDTO;
 import techno.matheus.Bank.MySQL.entities.User;
 import techno.matheus.Bank.MySQL.services.UserServices;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,8 +31,8 @@ this.services = services;
 
 
 @GetMapping
-public ResponseEntity<List<User>> getAll(){
-List<User> obj = services.getAll();
+public ResponseEntity<List<UserDTO>> getAll(){
+List<UserDTO> obj = services.getAll();
 return new ResponseEntity<>(obj,HttpStatus.OK);
 }
 
@@ -42,8 +43,8 @@ return new ResponseEntity<>(obj,HttpStatus.OK);
 }
 
 @PostMapping
-public ResponseEntity<List<User>> create(@RequestBody User user){
-List<User> obj = services.create(user);
+public ResponseEntity<List<UserDTO>> create(@RequestBody UserDTO user){
+List<UserDTO> obj = services.create(user);
 return new ResponseEntity<>(obj,HttpStatus.CREATED);
 
 
@@ -51,15 +52,15 @@ return new ResponseEntity<>(obj,HttpStatus.CREATED);
 
 
 @PutMapping("/{id}")
-public ResponseEntity<List<User>> update(User user,Long id){
-	List<User> obj = services.update(id, user);
+public ResponseEntity<List<UserDTO>> update(@PathVariable UserDTO user,Long id){
+	List<UserDTO> obj = services.update(id, user);
 	return new ResponseEntity<>(obj,HttpStatus.ACCEPTED);
 }
 
 
 @DeleteMapping("/{id}")
-public ResponseEntity<List<User>> delete(Long id){
-	List<User> obj = services.delete(id);
+public ResponseEntity<List<UserDTO>> delete(@PathVariable Long id){
+	List<UserDTO> obj = services.delete(id);
 	return new ResponseEntity<>(obj,HttpStatus.ACCEPTED);
 }
 

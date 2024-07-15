@@ -7,4 +7,5 @@ import techno.matheus.Bank.MySQL.entities.User;
 
 public interface UserRepository extends JpaRepository<User,Long> {
 User findByDocument(String document);
+boolean existsByDocument(String document);
 }

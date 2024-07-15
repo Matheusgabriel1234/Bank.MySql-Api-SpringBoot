@@ -1,9 +1,9 @@
 package techno.matheus.Bank.MySQL.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-
-
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,7 +21,14 @@ import techno.matheus.Bank.MySQL.enums.UserType;
 
 @Entity
 @Table(name = "tb_users")
-public class User {
+public class User implements Serializable{
+	
+	
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
@@ -33,28 +40,54 @@ private String lastName;
 
 @Enumerated(EnumType.STRING)
 private UserType userType;
-private BigDecimal amount;
+private BigDecimal balance;
 
 @Column(unique = true)
+
 private String document;
 
 
 @OneToMany(mappedBy = "senderId",cascade = CascadeType.ALL)
-private List<Transfer> transfer;
+private List<Transfer> senderTransfer;
+
+
+@OneToMany(mappedBy = "receiverId", cascade = CascadeType.ALL)
+private List<Transfer> receiverTransfer;
+
 
 public User() {
 	
 }
 
-public User(Long id, String firstName, String lastName, BigDecimal amount, String document, List<Transfer> transfer) {
+
+
+public User(@NotBlank String firstName, @NotBlank String lastName, UserType userType, BigDecimal balance,
+		String document, List<Transfer> senderTransfer, List<Transfer> receiverTransfer) {
 	super();
-	this.id = id;
 	this.firstName = firstName;
 	this.lastName = lastName;
-	this.amount = amount;
+	this.userType = userType;
+	this.balance = balance;
 	this.document = document;
-	this.transfer = transfer;
+	this.senderTransfer = senderTransfer;
+	this.receiverTransfer = receiverTransfer;
 }
+
+
+
+
+
+public BigDecimal getBalance() {
+	return balance;
+}
+
+
+
+public void setBalance(BigDecimal balance) {
+	this.balance = balance;
+}
+
+
 
 public Long getId() {
 	return id;
@@ -88,13 +121,7 @@ public void setUserType(UserType userType) {
 	this.userType = userType;
 }
 
-public BigDecimal getAmount() {
-	return amount;
-}
 
-public void setAmount(BigDecimal amount) {
-	this.amount = amount;
-}
 
 public String getDocument() {
 	return document;
@@ -104,12 +131,59 @@ public void setDocument(String document) {
 	this.document = document;
 }
 
-public List<Transfer> getTransfer() {
-	return transfer;
+
+
+public List<Transfer> getSenderTransfer() {
+	return senderTransfer;
 }
 
-public void setTransfer(List<Transfer> transfer) {
-	this.transfer = transfer;
+
+
+public void setSenderTransfer(List<Transfer> senderTransfer) {
+	this.senderTransfer = senderTransfer;
+}
+
+
+
+public List<Transfer> getReceiverTransfer() {
+	return receiverTransfer;
+}
+
+
+
+public void setReceiverTransfer(List<Transfer> receiverTransfer) {
+	this.receiverTransfer = receiverTransfer;
+}
+
+
+
+public void decreaseBalance(BigDecimal amount) {
+this.balance = this.balance.subtract(amount);
+}
+
+public void increaseBalance(BigDecimal amount) {
+this.balance = this.balance.add(amount);
+}
+
+
+
+@Override
+public int hashCode() {
+	return Objects.hash(id);
+}
+
+
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	User other = (User) obj;
+	return Objects.equals(id, other.id);
 }
 
 
